@@ -20,38 +20,37 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     
-env:
-  ARM_SUBSCRIPTION_ID: '78a31efa-9c2e-4a12-9934-2d4a12a7cd3f'
-  ARM_TENANT_ID: 'ed97c1e9-ecd8-42bb-a9ed-05580e824217'
-  ARM_CLIENT_ID: '50e910bf-b98a-463d-8f2c-407168a900f6'
-  ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
-  AZURE_STORAGE: 'terraform67ui3078'
+    env:
+     ARM_TENANT_ID: 'ed97c1e9-ecd8-42bb-a9ed-05580e824217'
+     ARM_CLIENT_ID: '50e910bf-b98a-463d-8f2c-407168a900f6'
+     ARM_CLIENT_SECRET: ${{secrets.ARM_CLIENT_SECRET}}
+     AZURE_STORAGE: 'terraform67ui3078'
     
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-steps:
+    steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-  - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       
-  - name: Azure Login
-    uses: Azure/login@v1
-    with:
+    - name: Azure Login
+      uses: Azure/login@v1
+      with:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
          creds: ${{secrets.AZURE_CREDENTIALS}}
       
       # Builds the Terraform state from the script
-  - name: Build a Terraform state
-    run: chmod +x ./tfstate.sh && ./tfstate.sh ${{env.AZURE_STORAGE}}
+    - name: Build a Terraform state
+      run: chmod +x ./tfstate.sh && ./tfstate.sh ${{env.AZURE_STORAGE}}
         
       # Sets up Terraform
-  - name: HashiCorp - Setup Terraform
-    uses: hashicorp/setup-terraform@v1.2.1
+    - name: HashiCorp - Setup Terraform
+      uses: hashicorp/setup-terraform@v1.2.1
       
-  - name: Terrafrom init
-    run: terraform init -backend-config="storage_account_name=${{env.AZURE_STORAGE}}
+    - name: Terrafrom init
+      run: terraform init -backend-config="storage_account_name=${{env.AZURE_STORAGE}}
       
-  - name: Terraform plan
-    run: terraform plan -out=tfplan
+    - name: Terraform plan
+      run: terraform plan -out=tfplan
       
-  - name: Terraform apply
-    run: terraform apply tfplan
+    - name: Terraform apply
+      run: terraform apply tfplan
