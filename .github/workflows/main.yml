@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-     ARM_SUBSCRIPTION_ID: '78a31efa-9c2e-4a12-9934-2d4a12a7cd3f'
-     ARM_TENANT_ID: 'ed97c1e9-ecd8-42bb-a9ed-05580e824217'
-     ARM_CLIENT_ID: '50e910bf-b98a-463d-8f2c-407168a900f6'
+     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
      AZURE_STORAGE: 'terraform67ui3078'
     
